@@ -1,6 +1,8 @@
 <% layout('layouts/app') %>
 <h1><%= place.title %></h1>
 <h2><%= place.location %></h2>
+<img src="<%= place.image %>" />
+<p><%= place.description %></p>
 
 <form action="/place/<%= place._id %>/delete?_method=DELETE" method="POST">
   <button type="submit">Delete</button>
