@@ -1,18 +1,80 @@
 <% layout('layouts/app') %>
-<h1>Create New Place</h1>
-<form action="/place/store" method="POST">
-  <div>
-    <label for="title">Title :</label>
-    <input type="text" name="place[title]" id="title" />
+<h1 class="text-3xl font-bold text-center text-gray-900 mb-6">
+  Create New Place
+</h1>
+<form
+  action="/place/store"
+  method="POST"
+  class="max-w-2xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg mb-6"
+>
+  <div class="mb-4">
+    <label for="title" class="block mb-2 text-sm font-medium text-gray-200"
+      >Title:</label
+    >
+    <input
+      type="text"
+      id="title"
+      name="place[title]"
+      class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      placeholder="Enter title"
+    />
   </div>
-  <div>
-    <label for="location">Location :</label>
-    <input type="text" name="place[location]" id="location" />
+  <div class="mb-4">
+    <label for="location" class="block mb-2 text-sm font-medium text-gray-200"
+      >Location:</label
+    >
+    <input
+      type="text"
+      id="location"
+      name="place[location]"
+      class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      placeholder="Enter location"
+    />
   </div>
-  <div>
-    <label for="price">Price :</label>
-    <input type="text" name="place[price]" id="price" />
+  <div class="mb-4">
+    <label for="price" class="block mb-2 text-sm font-medium text-gray-200"
+      >Price:</label
+    >
+    <input
+      type="text"
+      id="price"
+      name="place[price]"
+      class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      placeholder="Enter price"
+    />
   </div>
-
-  <button type="submit">Submit</button>
+  <div class="mb-4">
+    <label for="image" class="block mb-2 text-sm font-medium text-gray-200"
+      >Image URL:</label
+    >
+    <input
+      type="url"
+      id="image"
+      name="place[image]"
+      class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      placeholder="Enter image URL"
+    />
+  </div>
+  <div class="mb-4">
+    <label
+      for="description"
+      class="block mb-2 text-sm font-medium text-gray-200"
+      >Description:</label
+    >
+    <textarea
+      id="description"
+      name="place[description]"
+      rows="4"
+      class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      placeholder="Enter description"
+    ></textarea>
+  </div>
+  <div class="flex justify-end">
+    <button
+      type="submit"
+      class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      Submit
+    </button>
+  </div>
 </form>
