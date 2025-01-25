@@ -159,5 +159,74 @@
     <!-- End Col -->
   </div>
   <!-- End Grid -->
+  <div class="mt-16">
+    <h1>Add Review</h1>
+    <form action="/place/<%= place._id %>/review" method="POST">
+      <div class="mb-4">
+        <label
+          for="review[rating]"
+          class="block mb-2 text-sm font-medium text-gray-500"
+          >Rating</label
+        >
+        <input
+          id="rating"
+          name="review[rating]"
+          type="range"
+          min="1"
+          max="5"
+          class="w-1/2 h-2 rounded-lg appearance-none cursor-pointer bg-gray-700"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="body" class="block mb-2 text-sm font-medium text-gray-700"
+          >Review:</label
+        >
+        <textarea
+          id="body"
+          name="review[body]"
+          rows="4"
+          class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5"
+          placeholder="Enter body"
+          required
+        ></textarea>
+      </div>
+      <div class="flex justify-start">
+        <button
+          type="submit"
+          class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div
+      class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:gap-20 md:grid-cols-3 lg:grid-cols-5 lg:gap-8"
+    >
+      <% for(let review of place.reviews) {%>
+      <div class="text-center bg-gray-200 rounded-lg p-4">
+        <div class="">
+          <p class="text-gray-800">" <%= review.body %> "</p>
+        </div>
+        <div class="shrink-0 flex justify-center gap-x-1 mt-3">
+          Rating : <%= review.rating %>
+        </div>
+        <form
+          action="/place/<%= place._id %>/review/<%= review._id %>?_method=DELETE"
+          method="POST"
+          class="inline-block mt-4"
+        >
+          <button
+            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-red-800 text-white hover:bg-gray-900 focus:outline-none focus:bg-gray-900 disabled:opacity-50 disabled:pointer-events-none"
+            type="submit"
+          >
+            Delete
+          </button>
+        </form>
+      </div>
+      <% } %>
+    </div>
+  </div>
 </div>
-<!-- End Testimonials -->
