@@ -1,6 +1,7 @@
 const ejsMate = require('ejs-mate');
 const express = require('express');
 const mongoose = require('mongoose');
+const ErrorHandler = require('./utils/ErrorHandler');
 const methodOverride = require('method-override');
 const path = require('path');
 const app = express();
@@ -59,11 +60,20 @@ app.delete('/place/:id/delete', async (req, res) => {
     res.redirect('/places');
 })
 
-
 app.get('/place/:id', async (req, res) => {
     // const { id } = req.params;
     const place = await Place.findById(req.params.id);
     res.render('places/show', { place });
+});
+
+app.all('*', (req, res, next) => {
+    next(new ErrorHandler(404, 'Page not found'));
+});
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+    res.status(statusCode).render('error', { err });
 });
 
 app.listen(3000, () => {
