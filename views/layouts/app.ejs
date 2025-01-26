@@ -8,7 +8,9 @@
   </head>
   <body class="flex flex-col min-h-screen">
     <%- include('partials/navbar') %>
-    <main class="mt-32 ml-16"><%- body %></main>
+    <main class="mt-32 ml-16 mr-10">
+      <%- include('partials/alert') %> <%- body %>
+    </main>
     <%- include('partials/footer') %>
   </body>
 </html>
