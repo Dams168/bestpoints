@@ -2,11 +2,11 @@ const ejsMate = require('ejs-mate');
 const express = require('express');
 const mongoose = require('mongoose');
 const ErrorHandler = require('./utils/ErrorHandler');
-const Joi = require('joi');
-const wrapAsync = require('./utils/wrapAsync');
 const methodOverride = require('method-override');
 const path = require('path');
 const app = express();
+const placesRoute = require('./routes/places.route');
+const reviewsRoute = require('./routes/reviews.route');
 
 //connect to mongoDB
 mongoose.connect('mongodb://127.0.0.1/bestpoints')
@@ -17,13 +17,6 @@ mongoose.connect('mongodb://127.0.0.1/bestpoints')
         console.log('Error connecting to MongoDB', err);
     });
 
-//models
-const Place = require('./models/place');
-const Review = require('./models/review');
-
-//schemas
-const { reviewSchema } = require('./schemas/review');
-const { placeSchema } = require('./schemas/place');
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -32,61 +25,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+app.use('/', placesRoute);
+app.use('/', reviewsRoute);
+
 app.get('/', (req, res) => {
     res.render('home')
 });
-
-app.get('/places', async (req, res) => {
-    const places = await Place.find();
-    res.render('places/index', { places });
-});
-
-app.get('/place/create', (req, res) => {
-    res.render('places/create');
-});
-
-app.post('/place/store', async (req, res) => {
-    const place = new Place(req.body.place);
-    await place.save();
-    res.redirect(`/places`);
-})
-
-app.get('/place/:id/edit', async (req, res) => {
-    const place = await Place.findById(req.params.id);
-    res.render('places/edit', { place });
-});
-
-app.put('/place/:id/update', async (req, res) => {
-    await Place.findByIdAndUpdate(req.params.id, { ...req.body.place });
-    res.redirect(`/places`);
-});
-
-app.delete('/place/:id/delete', async (req, res) => {
-    await Place.findByIdAndDelete(req.params.id);
-    res.redirect('/places');
-})
-
-app.get('/place/:id', async (req, res) => {
-    // const { id } = req.params;
-    const place = await Place.findById(req.params.id).populate('reviews');
-    res.render('places/show', { place });
-});
-
-app.post('/place/:id/review', wrapAsync(async (req, res) => {
-    const place = await Place.findById(req.params.id);
-    const review = new Review(req.body.review);
-    place.reviews.push(review);
-    await review.save();
-    await place.save();
-    res.redirect(`/place/${place._id}`);
-}));
-
-app.delete('/place/:placeId/review/:reviewId', wrapAsync(async (req, res) => {
-    const { placeId, reviewId } = req.params;
-    await Place.findByIdAndUpdate(placeId, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/place/${placeId}`);
-}));
 
 app.all('*', (req, res, next) => {
     next(new ErrorHandler(404, 'Page not found'));
