@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const wrapAsync = require('../utils/wrapAsync');
 const Place = require('../models/place');
-const isValidObjectId = require('../middleware/isValidObjectId');
+const isValidObjectId = require('../middlewares/isValidObjectId');
 
 router.get('/places', async (req, res) => {
     const places = await Place.find();

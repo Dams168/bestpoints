@@ -7,8 +7,11 @@ const ErrorHandler = require('./utils/ErrorHandler');
 const methodOverride = require('method-override');
 const path = require('path');
 const app = express();
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 const placesRoute = require('./routes/places.route');
 const reviewsRoute = require('./routes/reviews.route');
+const user = require('./models/user');
 
 //connect to mongoDB
 mongoose.connect('mongodb://127.0.0.1/bestpoints')
@@ -38,6 +41,12 @@ app.use(session({
     }
 }));
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(user.authenticate()));
+passport.serializeUser(user.serializeUser());
+passport.deserializeUser(user.deserializeUser());
 
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');

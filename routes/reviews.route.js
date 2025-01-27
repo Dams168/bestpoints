@@ -2,7 +2,7 @@ const router = require('express').Router();
 const wrapAsync = require('../utils/wrapAsync');
 const Review = require('../models/review');
 const Place = require('../models/place');
-const isValidObjectId = require('../middleware/isValidObjectId');
+const isValidObjectId = require('../middlewares/isValidObjectId');
 
 
 router.post('/place/:id/review', isValidObjectId('/places'), wrapAsync(async (req, res) => {
