@@ -134,6 +134,7 @@
           >
             Back
           </a>
+          <% if(currentUser) {%>
           <a
             class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-gray-800 text-white hover:bg-gray-900 focus:outline-none focus:bg-gray-900 disabled:opacity-50 disabled:pointer-events-none"
             href="/place/<%= place.id %>/edit"
@@ -151,6 +152,7 @@
             >
               Delete
             </button>
+            <% } %>
           </form>
         </div>
       </blockquote>
@@ -159,6 +161,7 @@
     <!-- End Col -->
   </div>
   <!-- End Grid -->
+  <% if(currentUser) {%>
   <div class="mt-16">
     <h1>Add Review</h1>
     <form action="/place/<%= place._id %>/review" method="POST">
@@ -200,6 +203,7 @@
       </div>
     </form>
   </div>
+  <% } %>
 
   <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
     <div
