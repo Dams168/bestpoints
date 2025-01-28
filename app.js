@@ -11,6 +11,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const placesRoute = require('./routes/places.route');
 const reviewsRoute = require('./routes/reviews.route');
+const authRoute = require('./routes/auth.route');
 const user = require('./models/user');
 
 //connect to mongoDB
@@ -57,6 +58,7 @@ app.use((req, res, next) => {
 //routes
 app.use('/', placesRoute);
 app.use('/', reviewsRoute);
+app.use('/', authRoute);
 
 app.get('/', (req, res) => {
     res.render('home')
