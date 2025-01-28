@@ -2,13 +2,14 @@ const router = require('express').Router();
 const wrapAsync = require('../utils/wrapAsync');
 const Place = require('../models/place');
 const isValidObjectId = require('../middlewares/isValidObjectId');
+const isAuth = require('../middlewares/isAuth');
 
 router.get('/places', async (req, res) => {
     const places = await Place.find();
     res.render('places/index', { places });
 });
 
-router.get('/place/create', (req, res) => {
+router.get('/place/create', isAuth, (req, res) => {
     res.render('places/create');
 });
 
@@ -19,7 +20,7 @@ router.post('/place/store', wrapAsync(async (req, res) => {
     res.redirect(`/places`);
 }));
 
-router.get('/place/:id/edit', isValidObjectId('/places'), async (req, res) => {
+router.get('/place/:id/edit', isAuth, isValidObjectId('/places'), async (req, res) => {
     const place = await Place.findById(req.params.id);
     res.render('places/edit', { place });
 });
@@ -30,7 +31,7 @@ router.put('/place/:id/update', isValidObjectId('/places'), wrapAsync(async (req
     res.redirect(`/place/${req.params.id}`);
 }));
 
-router.delete('/place/:id/delete', isValidObjectId('/places'), wrapAsync(async (req, res) => {
+router.delete('/place/:id/delete', isAuth, isValidObjectId('/places'), wrapAsync(async (req, res) => {
     await Place.findByIdAndDelete(req.params.id);
     req.flash('success', 'Successfully deleted place');
     res.redirect('/places');

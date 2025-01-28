@@ -3,9 +3,10 @@ const wrapAsync = require('../utils/wrapAsync');
 const Review = require('../models/review');
 const Place = require('../models/place');
 const isValidObjectId = require('../middlewares/isValidObjectId');
+const isAuth = require('../middlewares/isAuth');
 
 
-router.post('/place/:id/review', isValidObjectId('/places'), wrapAsync(async (req, res) => {
+router.post('/place/:id/review', isAuth, isValidObjectId('/places'), wrapAsync(async (req, res) => {
     const place = await Place.findById(req.params.id);
     const review = new Review(req.body.review);
     place.reviews.push(review);
@@ -15,7 +16,7 @@ router.post('/place/:id/review', isValidObjectId('/places'), wrapAsync(async (re
     res.redirect(`/place/${place._id}`);
 }));
 
-router.delete('/place/:placeId/review/:reviewId', isValidObjectId('/places'), wrapAsync(async (req, res) => {
+router.delete('/place/:placeId/review/:reviewId', isAuth, isValidObjectId('/places'), wrapAsync(async (req, res) => {
     const { placeId, reviewId } = req.params;
     await Place.findByIdAndUpdate(placeId, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
