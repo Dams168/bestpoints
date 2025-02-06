@@ -1,14 +1,86 @@
 <% layout('layouts/app') %>
 <link rel="stylesheet" href="/css/stars.css" />
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.1/dist/flowbite.min.js"></script>
 <!-- Testimonials -->
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
   <!-- Grid -->
   <div class="md:grid md:grid-cols-2 md:gap-10 lg:gap-16 md:items-center">
     <div class="hidden md:block mb-24 md:mb-0 sm:px-6">
       <div class="relative">
-        <img class="rounded-xl" src="<%= place.image %>" alt="Avatar" />
+        <!-- <img class="rounded-xl" src="<%= place.image %>" alt="Avatar" /> -->
+        <div
+          id="controls-carousel"
+          class="relative w-full"
+          data-carousel="static"
+        >
+          <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+            <% if (place.images.length) {%> <% place.images.forEach((image,
+            index) => { %>
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+              <img
+                src="/images/<%= image.filename %>"
+                class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                alt="<%= place.title %>"
+              />
+            </div>
+            <% });%> <% } %>
+          </div>
+          <% if(place.images.length > 1) { %>
+          <button
+            type="button"
+            class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            data-carousel-prev
+          >
+            <span
+              class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-gray-800/70"
+            >
+              <svg
+                class="w-4 h-4 text-gray-800 rtl:rotate-180"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 1 1 5l4 4"
+                />
+              </svg>
+              <span class="sr-only">Previous</span>
+            </span>
+          </button>
+          <button
+            type="button"
+            class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            data-carousel-next
+          >
+            <span
+              class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-gray-800/70"
+            >
+              <svg
+                class="w-4 h-4 text-gray-800 rtl:rotate-180"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 9 4-4-4-4"
+                />
+              </svg>
+              <span class="sr-only">Next</span>
+            </span>
+          </button>
+          <% } %>
+        </div>
 
-        <!-- SVG Element -->
         <div
           class="absolute bottom-0 start-0 -z-[1] translate-y-10 -translate-x-14"
         >

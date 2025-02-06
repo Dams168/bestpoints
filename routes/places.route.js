@@ -4,12 +4,13 @@ const isValidObjectId = require('../middlewares/isValidObjectId');
 const isAuth = require('../middlewares/isAuth');
 const { isAuthorPlace } = require('../middlewares/isAuthor');
 const placeController = require('../controllers/placesController');
+const upload = require('../configs/multer');
 
 router.get('/places', placeController.index);
 
 router.get('/place/create', isAuth, placeController.create);
 
-router.post('/place/store', wrapAsync(placeController.store));
+router.post('/place/store', isAuth, upload.array('image', 5), wrapAsync(placeController.store));
 
 router.get('/place/:id/edit', isAuth, isAuthorPlace, isValidObjectId('/places'), placeController.edit);
 

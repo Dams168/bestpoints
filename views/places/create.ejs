@@ -6,6 +6,7 @@
   action="/place/store"
   method="POST"
   class="max-w-2xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg mb-6"
+  enctype="multipart/form-data"
 >
   <div class="mb-4">
     <label for="title" class="block mb-2 text-sm font-medium text-gray-200"
@@ -48,15 +49,15 @@
   </div>
   <div class="mb-4">
     <label for="image" class="block mb-2 text-sm font-medium text-gray-200"
-      >Image URL:</label
+      >Images :</label
     >
     <input
-      type="url"
-      id="image"
-      name="place[image]"
-      class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-      placeholder="Enter image URL"
-      required
+      class="block w-full text-sm rounded-lg cursor-pointer bg-gray-50 text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
+      name="image"
+      id="images"
+      type="file"
+      accept="image/*"
+      multiple
     />
   </div>
   <div class="mb-4">
