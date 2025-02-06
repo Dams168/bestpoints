@@ -1,4 +1,6 @@
 const Place = require('../models/place');
+const fs = require('fs');
+const ErrorHandler = require('../utils/ErrorHandler');
 
 const index = async (req, res) => {
     const places = await Place.find();
@@ -25,9 +27,26 @@ const store = async (req, res) => {
 }
 
 const update = async (req, res) => {
-    await Place.findByIdAndUpdate(req.params.id, { ...req.body.place });
+    const place = await Place.findByIdAndUpdate(req.params.id, { ...req.body.place });
+
+    if (req.files && req.files.length > 0) {
+
+        place.images.forEach(image => {
+            fs.unlink(image.url, err => new ErrorHandler(err));
+        })
+
+        const images = req.files.map(file => ({
+            url: file.path,
+            filename: file.filename
+        }));
+
+        place.images = images;
+
+        await place.save();
+    }
+
     req.flash('success', 'Successfully updated place!');
-    res.redirect(`/places/${req.params.id}`);
+    res.redirect(`/place/${req.params.id}`);
 }
 
 const edit = async (req, res) => {
@@ -36,7 +55,16 @@ const edit = async (req, res) => {
 }
 
 const deletePlace = async (req, res) => {
-    await Place.findByIdAndDelete(req.params.id);
+    const { id } = req.params
+    const place = await Place.findById(id)
+
+    if (place.images.length > 0) {
+        place.images.forEach(image => {
+            fs.unlink(image.url, err => new ErrorHandler(err));
+        })
+    }
+
+    await place.deleteOne();
     req.flash('success', 'Successfully deleted place');
     res.redirect('/places');
 }

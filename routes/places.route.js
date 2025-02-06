@@ -14,7 +14,7 @@ router.post('/place/store', isAuth, upload.array('image', 5), wrapAsync(placeCon
 
 router.get('/place/:id/edit', isAuth, isAuthorPlace, isValidObjectId('/places'), placeController.edit);
 
-router.put('/place/:id/update', isAuthorPlace, isValidObjectId('/places'), wrapAsync(placeController.update));
+router.put('/place/:id/update', isAuthorPlace, isValidObjectId('/places'), upload.array('image', 5), wrapAsync(placeController.update));
 
 router.delete('/place/:id/delete', isAuth, isAuthorPlace, isValidObjectId('/places'), wrapAsync(placeController.deletePlace));
 
